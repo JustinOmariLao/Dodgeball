@@ -18,27 +18,34 @@ public class Throw : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>(); 
         thrown = true;
+        throwBall();
     }
 
-    // FixedUpdate is called once per frame
-    void FixedUpdate()
+    // // FixedUpdate is called once per frame
+    // void FixedUpdate()
+    // {
+    //     Speed = rb.velocity.magnitude;
+    //     AngularSpeed = rb.angularVelocity.magnitude;
+
+    //     if (thrown && rb.velocity.magnitude < 25) {
+    //         rb.AddForce(Vector3.forward * throwForce(), ForceMode.Impulse);
+    //         rb.AddForce(Vector3.up * throwForce() / 10, ForceMode.Impulse);
+    //     }
+    // }
+
+    // float throwForce() 
+    // {
+    //     return (playerThrowSpeedInput > 0) ? playerThrowSpeedInput -= ballAirDrag : 0.0f;
+    // }
+
+    // void OnCollisionEnter(Collision collisionInfo) {
+    //     thrown = false;
+    //     Debug.Log("Triggered Collision");
+    // }
+
+    private void throwBall()
     {
-        Speed = rb.velocity.magnitude;
-        AngularSpeed = rb.angularVelocity.magnitude;
-
-        if (thrown && rb.velocity.magnitude < 25) {
-            rb.AddForce(Vector3.forward * throwForce());
-            rb.AddForce(Vector3.up * throwForce() / 10);
-        }
-    }
-
-    float throwForce() 
-    {
-        return (playerThrowSpeedInput > 0) ? playerThrowSpeedInput -= ballAirDrag : 0.0f;
-    }
-
-    void OnCollisionEnter(Collision collisionInfo) {
-        thrown = false;
-        Debug.Log("Triggered Collision");
+        rb.AddForce(Vector3.forward * playerThrowSpeedInput, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * playerThrowSpeedInput / 10, ForceMode.Impulse);
     }
 }
