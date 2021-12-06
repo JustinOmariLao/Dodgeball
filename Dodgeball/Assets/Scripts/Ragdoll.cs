@@ -1,17 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Ragdoll : MonoBehaviour
 {
     public Animator anim;
-    
+    public NavMeshAgent agent;
+
     void OnCollisionEnter(Collision collisionInfo)
     {
         Debug.Log("Collision Triggered");
         if (collisionInfo.gameObject.name == "Dodgeball")
-            anim.enabled = false;
-
+        {
+            if(collisionInfo.gameObject.GetComponent<Pickup>().thrown == true)
+            {
+                anim.enabled = false;
+                agent.enabled = false;
+                GetComponentInParent<Enemy>().enabled = false;
+            }
+        }
+            
     }
     
 }
