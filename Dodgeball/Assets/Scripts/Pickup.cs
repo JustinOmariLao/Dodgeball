@@ -54,4 +54,12 @@ public class Pickup : MonoBehaviour
         rb.AddForce(Vector3.forward * playerThrowSpeedInput, ForceMode.Impulse);
         rb.AddForce(Vector3.up * playerThrowSpeedInput / 10, ForceMode.Impulse);
     }
+
+    void OnCollisionEnter(Collision collisionInfo)
+    {
+        Debug.Log(collisionInfo.gameObject.name);
+        if (collisionInfo.gameObject.name == "Player")
+            rb.AddForce(player.GetComponent<Rigidbody>().velocity);
+
+    }
 }
