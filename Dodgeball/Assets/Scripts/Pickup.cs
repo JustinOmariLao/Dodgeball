@@ -10,7 +10,8 @@ public class Pickup : MonoBehaviour
 
     public float pickupRange;
     public float playerThrowSpeedInput = 40f; //NEED TO CHANGE TO INTAKE LENGTH OF PLAYER INPUT ON MOUSE1
-    
+
+    public bool thrown;
     public bool equipped;
     public static bool slotFull;
 
@@ -18,6 +19,7 @@ public class Pickup : MonoBehaviour
 
     void Awake() 
     {
+        thrown = false;
         Physics.IgnoreLayerCollision(6,7);
         startingTransform = transform.position;
     }
@@ -49,6 +51,7 @@ public class Pickup : MonoBehaviour
 
     private void ThrowBall()
     {
+        thrown = true;
         equipped = false;
         slotFull = false;
 
@@ -65,8 +68,8 @@ public class Pickup : MonoBehaviour
 
     void OnCollisionEnter(Collision collisionInfo)
     {
-        Debug.Log(collisionInfo.gameObject.name);
-        if (collisionInfo.gameObject.name == "Player")
+        thrown = false;
+        if (collisionInfo.gameObject.name == "Player") 
             rb.AddForce(player.GetComponent<Rigidbody>().velocity);
         if (collisionInfo.gameObject.name == "Barrier")
         {
@@ -76,6 +79,7 @@ public class Pickup : MonoBehaviour
 
     void resetBallLocation() 
     {
+        thrown = false;
         transform.position = startingTransform;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
