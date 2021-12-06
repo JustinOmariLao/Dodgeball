@@ -14,6 +14,14 @@ public class Pickup : MonoBehaviour
     public bool equipped;
     public static bool slotFull;
 
+    private Vector3 startingTransform;
+
+    void Awake() 
+    {
+        Physics.IgnoreLayerCollision(6,7);
+        startingTransform = transform.position;
+    }
+
     void Update()
     {
         //check distance to player
@@ -45,14 +53,14 @@ public class Pickup : MonoBehaviour
         slotFull = false;
 
         transform.SetParent(null);
-
+        transform.rotation = player.rotation;
 
         //make rigidbody interactible and turn on physics
         rb.isKinematic = false;
         coll.isTrigger = false;
 
-        rb.AddForce(Vector3.forward * playerThrowSpeedInput, ForceMode.Impulse);
-        rb.AddForce(Vector3.up * playerThrowSpeedInput / 10, ForceMode.Impulse);
+        rb.AddForce(player.forward * playerThrowSpeedInput, ForceMode.Impulse);
+        rb.AddForce(player.up * playerThrowSpeedInput / 10, ForceMode.Impulse);
     }
 
     void OnCollisionEnter(Collision collisionInfo)
@@ -60,6 +68,17 @@ public class Pickup : MonoBehaviour
         Debug.Log(collisionInfo.gameObject.name);
         if (collisionInfo.gameObject.name == "Player")
             rb.AddForce(player.GetComponent<Rigidbody>().velocity);
+        if (collisionInfo.gameObject.name == "Barrier")
+        {
+            resetBallLocation();
+        }
+    }
 
+    void resetBallLocation() 
+    {
+        transform.position = startingTransform;
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 }

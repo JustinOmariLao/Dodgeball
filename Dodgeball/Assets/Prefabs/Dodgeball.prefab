@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4040935203853377676}
   - component: {fileID: 4040935203853377679}
   - component: {fileID: 4040935203853377672}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Dodgeball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,5 +131,5 @@ MonoBehaviour:
   dodgeballContainer: {fileID: 0}
   cam: {fileID: 0}
   pickupRange: 3.5
-  playerThrowSpeedInput: 40
+  playerThrowSpeedInput: 50
   equipped: 0
