@@ -63,18 +63,17 @@ public class Pickup : MonoBehaviour
         coll.isTrigger = false;
 
         rb.AddForce(player.forward * playerThrowSpeedInput, ForceMode.Impulse);
-        rb.AddForce(player.up * playerThrowSpeedInput / 10, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * playerThrowSpeedInput / 10, ForceMode.Impulse);
     }
 
     void OnCollisionEnter(Collision collisionInfo)
     {
-        thrown = false;
         if (collisionInfo.gameObject.name == "Player") 
             rb.AddForce(player.GetComponent<Rigidbody>().velocity);
         if (collisionInfo.gameObject.name == "Barrier")
-        {
             resetBallLocation();
-        }
+        if (collisionInfo.gameObject.name == "Ground")
+            thrown = false;
     }
 
     void resetBallLocation() 
