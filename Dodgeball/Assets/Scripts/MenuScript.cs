@@ -7,6 +7,7 @@ public class MenuScript : MonoBehaviour
 {
     public GameObject mainMenuCanvas;
     public GameObject optionMenuCanvas;
+    public GameObject controlCanvas;
 
     public void playGame() {
         SceneManager.LoadScene("PlayScene");
@@ -19,6 +20,11 @@ public class MenuScript : MonoBehaviour
     public void optionsMenu() {
         mainMenuCanvas.SetActive(!mainMenuCanvas.activeSelf);
         optionMenuCanvas.SetActive(!optionMenuCanvas.activeSelf);
+    }
+
+    public void controlsMenu() {
+        optionMenuCanvas.SetActive(!optionMenuCanvas.activeSelf);
+        controlCanvas.SetActive(!controlCanvas.activeSelf);
     }
 
     public void resolution1920() {
