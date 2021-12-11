@@ -28,9 +28,10 @@ public class Pickup : MonoBehaviour
     {
         //check distance to player
         Vector3 distanceToPlayer = player.position - transform.position;
+        if (equipped && Input.GetKeyDown(KeyCode.E)) DropBall(); 
         if (!equipped && distanceToPlayer.magnitude <= pickupRange && Input.GetKeyDown(KeyCode.E) && !slotFull) PickupBall();
-
-        if (equipped && Input.GetMouseButtonDown(0)) ThrowBall(); 
+        if (equipped && Input.GetMouseButtonDown(0)) ThrowBall();
+        
     }
 
     private void PickupBall()
@@ -47,6 +48,19 @@ public class Pickup : MonoBehaviour
         //make rigidbody non interactible and shut off physics
         rb.isKinematic = true;
         coll.isTrigger = true;
+    }
+
+    private void DropBall()
+    {
+        equipped = false;
+        slotFull = false;
+
+        transform.SetParent(null);
+        transform.rotation = player.rotation;
+
+        //make rigidbody interactible and turn on physics
+        rb.isKinematic = false;
+        coll.isTrigger = false;
     }
 
     private void ThrowBall()
@@ -68,8 +82,8 @@ public class Pickup : MonoBehaviour
 
     void OnCollisionEnter(Collision collisionInfo)
     {
-        if (collisionInfo.gameObject.name == "Player") 
-            rb.AddForce(player.GetComponent<Rigidbody>().velocity);
+        // if (collisionInfo.gameObject.name == "Player") 
+        //     rb.AddForce(player.GetComponent<Rigidbody>().velocity);
         if (collisionInfo.gameObject.name == "Barrier")
             resetBallLocation();
         if (collisionInfo.gameObject.name == "Ground")
