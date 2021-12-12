@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee2a14d0792dff745820e257908301e5, type: 2}
+  - {fileID: 2100000, guid: dea38c480840e014eb7ca1bffb8bc738, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -132,4 +132,5 @@ MonoBehaviour:
   cam: {fileID: 0}
   pickupRange: 3.5
   playerThrowSpeedInput: 50
+  thrown: 0
   equipped: 0

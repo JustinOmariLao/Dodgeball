@@ -21,7 +21,9 @@ public class Pickup : MonoBehaviour
     {
         thrown = false;
         Physics.IgnoreLayerCollision(6,7);
+        Physics.IgnoreLayerCollision(6,10);
         startingTransform = transform.position;
+        slotFull = false;
     }
 
     void Update()

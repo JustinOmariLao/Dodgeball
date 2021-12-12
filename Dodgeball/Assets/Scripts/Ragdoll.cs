@@ -15,12 +15,12 @@ public class Ragdoll : MonoBehaviour
         
         if (collisionInfo.gameObject.name == "Dodgeball")
         {
-            
             if(collisionInfo.gameObject.GetComponent<Pickup>().thrown == true)
             {
                 anim.enabled = false;
                 agent.enabled = false;
                 GetComponentInParent<Enemy>().enabled = false;
+                GetComponentInParent<HitScript>().hit = true;
             }
         }
             

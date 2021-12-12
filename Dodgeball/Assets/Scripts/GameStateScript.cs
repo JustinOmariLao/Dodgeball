@@ -7,13 +7,23 @@ using TMPro;
 public class GameStateScript : MonoBehaviour
 {
     public GameObject pauseMenu;
-    public GameObject gameUI;
+    public TMP_Text scoreboardTimer;
+    public TMP_Text scoreboardLeft;
+    public TMP_Text scoreboardHit;
 
-    public TMP_Text timerText;
+    public GameObject resumeButton;
+    public GameObject optionsButton;
+    public GameObject quitButton;
+
+    public GameObject sensSlider;
+    public GameObject backButton;
 
     private float gameTimer = 60;
-
+    private int opponentsHit;
+    private int opponentsLeft;
     public static bool gameResult = true;
+
+    public Transform enemyContainer;
 
     // Start is called before the first frame update
     void Start()
@@ -29,16 +39,23 @@ public class GameStateScript : MonoBehaviour
     // Update is called once per frame
     void Update() {
         gameTimer -= Time.deltaTime;
-        timerText.text = "Time Remaining: " + (int)gameTimer;
+
+        updateScoreboard();
 
         if (gameTimer <= 0) {
             gameResult = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            SceneManager.LoadScene("EndScene", LoadSceneMode.Single);
+        } else if (allEnemiesHit()) {
+            gameResult = true;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             SceneManager.LoadScene("EndScene", LoadSceneMode.Single);
         }
 
         if (Input.GetKeyDown("escape")) {
             pauseMenu.SetActive(!pauseMenu.activeSelf);
-            gameUI.SetActive(!gameUI.activeSelf);
             if (pauseMenu.activeSelf) {
                 Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.None;
@@ -52,9 +69,23 @@ public class GameStateScript : MonoBehaviour
         }
     }
 
+    private bool allEnemiesHit() {
+        bool temp = true;
+        int temp2 = 0;
+        int temp3 = 0;
+        foreach (Transform child in enemyContainer)
+        {
+            temp3++;
+            if (child.GetComponent<HitScript>().hit == false) temp = false; else temp2++;
+        }
+        opponentsHit = temp2;
+        opponentsLeft = temp3 - temp2;
+        return temp;
+    }
+
     public void resumeGame() {
+        if (!resumeButton.activeSelf) toggleOptions();
         pauseMenu.SetActive(!pauseMenu.activeSelf);
-        gameUI.SetActive(!gameUI.activeSelf);
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -62,5 +93,19 @@ public class GameStateScript : MonoBehaviour
 
     public void quitGame() {
         SceneManager.LoadScene("MenuScene",LoadSceneMode.Single);
+    }
+
+    public void toggleOptions() {
+        resumeButton.SetActive(!resumeButton.activeSelf);
+        optionsButton.SetActive(!optionsButton.activeSelf);
+        quitButton.SetActive(!quitButton.activeSelf);
+        sensSlider.SetActive(!sensSlider.activeSelf);
+        backButton.SetActive(!backButton.activeSelf);
+    }
+
+    private void updateScoreboard() {
+        scoreboardTimer.text = "0:" + (int)gameTimer;
+        scoreboardHit.text = "" + opponentsHit;
+        scoreboardLeft.text = "" + opponentsLeft;
     }
 }
